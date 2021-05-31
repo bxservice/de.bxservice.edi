@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Edi
+Bundle-SymbolicName: de.bxservice.edi;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: de.bxservice.edi
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.adempiere.base;bundle-version="8.2.0",
+ org.adempiere.plugin.utils;bundle-version="8.2.0"
+Import-Package: org.osgi.service.component.annotations;version="1.3.0"
+Service-Component: OSGI-INF/de.bxservice.edi.base.EDIProcessFactory.xml,
+ OSGI-INF/de.bxservice.edi.base.EDIModelFactory.xml
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: BX Service GmbH
+Export-Package: de.bxservice.edi.base,
+ de.bxservice.edi.model,
+ de.bxservice.edi.process
+Bundle-Activator: org.adempiere.plugin.utils.Incremental2PackActivator
