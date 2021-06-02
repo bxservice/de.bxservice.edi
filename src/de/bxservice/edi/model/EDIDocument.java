@@ -91,6 +91,10 @@ public class EDIDocument {
 	private void writeDetailSection(MEDISection ediSection) {
 		List<PO> detailRecords = ediRecord.getDetailRecords(MTable.get(ediSection.getAD_Table_ID()), ediSection.getOrderByClause());
 
+		if (detailRecords.size() <= 0) {
+			throw new AdempiereException("No detail records found - EDI Document must have at least one detail line");
+		}
+		
 		for (PO detailRecord : detailRecords) {
 			writeSegmentLines(ediSection.getLines(), detailRecord);
 		}
