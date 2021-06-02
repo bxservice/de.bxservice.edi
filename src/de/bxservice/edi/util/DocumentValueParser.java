@@ -34,8 +34,10 @@ public class DocumentValueParser {
 	private final static String EDI_VARIABLE_PREFIX = "@EDI_";
 	private final static String EDI_MESSAGE_TYPE_VARIABLE = EDI_VARIABLE_PREFIX + "MESSAGE_TYPE@";
 	private final static String EDI_DOCUMENT_CODE_VARIABLE = EDI_VARIABLE_PREFIX +  "DOCUMENT_CODE@";
+	private final static String EDI_SEGMENTS_NO = EDI_VARIABLE_PREFIX +  "SEGMENTS_NO@";
 	
 	private MEDIDocType documentType;
+	private int lineCounter = 0;
 	
 	public DocumentValueParser(MEDIDocType documentType) {
 		this.documentType = documentType;
@@ -44,6 +46,7 @@ public class DocumentValueParser {
 	public String parseMessageLine(String messageTxt, PO parseableRecord) {
 		String parsedLine = parseEDIVariables(messageTxt);
 		parsedLine = parseContextVariables(parsedLine, parseableRecord);
+		lineCounter++;
 		return parsedLine;
 	}
 	
@@ -56,6 +59,8 @@ public class DocumentValueParser {
 			newMessage = originalMessage.replace(EDI_MESSAGE_TYPE_VARIABLE, documentType.getEDI_MessageType());
 		if (originalMessage.contains(EDI_DOCUMENT_CODE_VARIABLE))
 			newMessage = originalMessage.replace(EDI_DOCUMENT_CODE_VARIABLE, documentType.getEDI_DocumentCode());
+		if (originalMessage.contains(EDI_SEGMENTS_NO))
+			newMessage = originalMessage.replace(EDI_SEGMENTS_NO, String.valueOf(lineCounter+1));
 
 		return newMessage;
 	}
