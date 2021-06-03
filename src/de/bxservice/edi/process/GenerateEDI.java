@@ -39,6 +39,8 @@ import de.bxservice.edi.model.MEDIFormat;
 
 public class GenerateEDI extends SvrProcess {
 	
+	private static final String SUBMITTED_COLUMN_NAME = "IsEDISubmitted";
+	
 	private int EDI_Format_ID = 0;
 
 	@Override
@@ -60,8 +62,16 @@ public class GenerateEDI extends SvrProcess {
  		PO currentPO = getCurrentPO();
 		EDIDocument document = new EDIDocument(currentPO, ediFormat);
 		String fileName = addAttachment(currentPO, document.getDocumentInEDIFormat());
- 		
+		markDocumentAsEDISubmitted(currentPO);
+		
 		return fileName + " attached to the current record.";
+	}
+	
+	private void markDocumentAsEDISubmitted(PO po) {
+		if (po.get_ColumnIndex(SUBMITTED_COLUMN_NAME) > 0) {
+			po.set_ValueOfColumn(SUBMITTED_COLUMN_NAME, true);
+			po.saveEx();
+		}
 	}
 	
 	private PO getCurrentPO() {
