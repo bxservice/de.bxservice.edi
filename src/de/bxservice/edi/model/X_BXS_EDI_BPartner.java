@@ -20,12 +20,11 @@ package de.bxservice.edi.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for BXS_EDIFormat
+/** Generated Model for BXS_EDI_BPartner
  *  @author iDempiere (generated) 
  *  @version Release 8.2 - $Id$ */
-public class X_BXS_EDIFormat extends PO implements I_BXS_EDIFormat, I_Persistent 
+public class X_BXS_EDI_BPartner extends PO implements I_BXS_EDI_BPartner, I_Persistent 
 {
 
 	/**
@@ -34,20 +33,19 @@ public class X_BXS_EDIFormat extends PO implements I_BXS_EDIFormat, I_Persistent
 	private static final long serialVersionUID = 20210604L;
 
     /** Standard Constructor */
-    public X_BXS_EDIFormat (Properties ctx, int BXS_EDIFormat_ID, String trxName)
+    public X_BXS_EDI_BPartner (Properties ctx, int BXS_EDI_BPartner_ID, String trxName)
     {
-      super (ctx, BXS_EDIFormat_ID, trxName);
-      /** if (BXS_EDIFormat_ID == 0)
+      super (ctx, BXS_EDI_BPartner_ID, trxName);
+      /** if (BXS_EDI_BPartner_ID == 0)
         {
-			setAD_Table_ID (0);
-			setBXS_EDI_DocType_ID (0);
+			setBXS_EDI_BPartner_ID (0);
 			setBXS_EDIFormat_ID (0);
-			setName (null);
+			setC_BPartner_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_BXS_EDIFormat (Properties ctx, ResultSet rs, String trxName)
+    public X_BXS_EDI_BPartner (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,8 +67,8 @@ public class X_BXS_EDIFormat extends PO implements I_BXS_EDIFormat, I_Persistent
 
     public String toString()
     {
-      StringBuilder sb = new StringBuilder ("X_BXS_EDIFormat[")
-        .append(get_ID()).append(",Name=").append(getName()).append("]");
+      StringBuilder sb = new StringBuilder ("X_BXS_EDI_BPartner[")
+        .append(get_ID()).append("]");
       return sb.toString();
     }
 
@@ -102,30 +100,44 @@ public class X_BXS_EDIFormat extends PO implements I_BXS_EDIFormat, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_BXS_EDI_DocType getBXS_EDI_DocType() throws RuntimeException
-    {
-		return (I_BXS_EDI_DocType)MTable.get(getCtx(), I_BXS_EDI_DocType.Table_Name)
-			.getPO(getBXS_EDI_DocType_ID(), get_TrxName());	}
-
-	/** Set EDI Document Type.
-		@param BXS_EDI_DocType_ID EDI Document Type	  */
-	public void setBXS_EDI_DocType_ID (int BXS_EDI_DocType_ID)
+	/** Set EDI Business Partner.
+		@param BXS_EDI_BPartner_ID EDI Business Partner	  */
+	public void setBXS_EDI_BPartner_ID (int BXS_EDI_BPartner_ID)
 	{
-		if (BXS_EDI_DocType_ID < 1) 
-			set_Value (COLUMNNAME_BXS_EDI_DocType_ID, null);
+		if (BXS_EDI_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_BXS_EDI_BPartner_ID, null);
 		else 
-			set_Value (COLUMNNAME_BXS_EDI_DocType_ID, Integer.valueOf(BXS_EDI_DocType_ID));
+			set_ValueNoCheck (COLUMNNAME_BXS_EDI_BPartner_ID, Integer.valueOf(BXS_EDI_BPartner_ID));
 	}
 
-	/** Get EDI Document Type.
-		@return EDI Document Type	  */
-	public int getBXS_EDI_DocType_ID () 
+	/** Get EDI Business Partner.
+		@return EDI Business Partner	  */
+	public int getBXS_EDI_BPartner_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_BXS_EDI_DocType_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_BXS_EDI_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set BXS_EDI_BPartner_UU.
+		@param BXS_EDI_BPartner_UU BXS_EDI_BPartner_UU	  */
+	public void setBXS_EDI_BPartner_UU (String BXS_EDI_BPartner_UU)
+	{
+		set_Value (COLUMNNAME_BXS_EDI_BPartner_UU, BXS_EDI_BPartner_UU);
+	}
+
+	/** Get BXS_EDI_BPartner_UU.
+		@return BXS_EDI_BPartner_UU	  */
+	public String getBXS_EDI_BPartner_UU () 
+	{
+		return (String)get_Value(COLUMNNAME_BXS_EDI_BPartner_UU);
+	}
+
+	public I_BXS_EDIFormat getBXS_EDIFormat() throws RuntimeException
+    {
+		return (I_BXS_EDIFormat)MTable.get(getCtx(), I_BXS_EDIFormat.Table_Name)
+			.getPO(getBXS_EDIFormat_ID(), get_TrxName());	}
 
 	/** Set EDI Format.
 		@param BXS_EDIFormat_ID EDI Format	  */
@@ -147,100 +159,71 @@ public class X_BXS_EDIFormat extends PO implements I_BXS_EDIFormat, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set BXS_EDIFormat_UU.
-		@param BXS_EDIFormat_UU BXS_EDIFormat_UU	  */
-	public void setBXS_EDIFormat_UU (String BXS_EDIFormat_UU)
-	{
-		set_Value (COLUMNNAME_BXS_EDIFormat_UU, BXS_EDIFormat_UU);
-	}
-
-	/** Get BXS_EDIFormat_UU.
-		@return BXS_EDIFormat_UU	  */
-	public String getBXS_EDIFormat_UU () 
-	{
-		return (String)get_Value(COLUMNNAME_BXS_EDIFormat_UU);
-	}
-
-	/** Set Description.
-		@param Description 
-		Optional short description of the record
-	  */
-	public void setDescription (String Description)
-	{
-		set_Value (COLUMNNAME_Description, Description);
-	}
-
-	/** Get Description.
-		@return Optional short description of the record
-	  */
-	public String getDescription () 
-	{
-		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Line Separator.
-		@param EDI_LineSeparator 
-		Line Separator Character
-	  */
-	public void setEDI_LineSeparator (String EDI_LineSeparator)
-	{
-		set_Value (COLUMNNAME_EDI_LineSeparator, EDI_LineSeparator);
-	}
-
-	/** Get Line Separator.
-		@return Line Separator Character
-	  */
-	public String getEDI_LineSeparator () 
-	{
-		return (String)get_Value(COLUMNNAME_EDI_LineSeparator);
-	}
-
-	/** Set Break Line.
-		@param IsBreakLine 
-		Break each document line
-	  */
-	public void setIsBreakLine (boolean IsBreakLine)
-	{
-		set_Value (COLUMNNAME_IsBreakLine, Boolean.valueOf(IsBreakLine));
-	}
-
-	/** Get Break Line.
-		@return Break each document line
-	  */
-	public boolean isBreakLine () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsBreakLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name)
-	{
-		set_Value (COLUMNNAME_Name, Name);
-	}
-
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
-	  */
-	public String getName () 
-	{
-		return (String)get_Value(COLUMNNAME_Name);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        return new KeyNamePair(get_ID(), getName());
-    }
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Current Next.
+		@param CurrentNext 
+		The next number to be used
+	  */
+	public void setCurrentNext (int CurrentNext)
+	{
+		set_Value (COLUMNNAME_CurrentNext, Integer.valueOf(CurrentNext));
+	}
+
+	/** Get Current Next.
+		@return The next number to be used
+	  */
+	public int getCurrentNext () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CurrentNext);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Increment.
+		@param IncrementNo 
+		The number to increment the last document number by
+	  */
+	public void setIncrementNo (int IncrementNo)
+	{
+		set_Value (COLUMNNAME_IncrementNo, Integer.valueOf(IncrementNo));
+	}
+
+	/** Get Increment.
+		@return The number to increment the last document number by
+	  */
+	public int getIncrementNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_IncrementNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }

@@ -31,7 +31,7 @@ public class X_BXS_EDISection extends PO implements I_BXS_EDISection, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210531L;
+	private static final long serialVersionUID = 20210604L;
 
     /** Standard Constructor */
     public X_BXS_EDISection (Properties ctx, int BXS_EDISection_ID, String trxName)
@@ -53,7 +53,7 @@ public class X_BXS_EDISection extends PO implements I_BXS_EDISection, I_Persiste
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -135,6 +135,8 @@ public class X_BXS_EDISection extends PO implements I_BXS_EDISection, I_Persiste
 	public static final String BXS_EDISECTION_DetailSection = "D";
 	/** Summary Section = S */
 	public static final String BXS_EDISECTION_SummarySection = "S";
+	/** Message Footer = F */
+	public static final String BXS_EDISECTION_MessageFooter = "F";
 	/** Set EDI Section.
 		@param BXS_EDISection EDI Section	  */
 	public void setBXS_EDISection (String BXS_EDISection)

@@ -35,12 +35,17 @@ public class DocumentValueParser {
 	private final static String EDI_MESSAGE_TYPE_VARIABLE = EDI_VARIABLE_PREFIX + "MESSAGE_TYPE@";
 	private final static String EDI_DOCUMENT_CODE_VARIABLE = EDI_VARIABLE_PREFIX +  "DOCUMENT_CODE@";
 	private final static String EDI_SEGMENTS_NO = EDI_VARIABLE_PREFIX +  "SEGMENTS_NO@";
+	private final static String EDI_BP_REFERENCE_SEQ = EDI_VARIABLE_PREFIX +  "BP_SEQ@";
+	private final static String EDI_MESSAGE_NUMBER = EDI_VARIABLE_PREFIX +  "MESSAGE_NUMBER@";
 	
 	private MEDIDocType documentType;
+	private String messageSequenceReference;
 	private int lineCounter = 0;
+	private int messageCounter = 1;
 	
-	public DocumentValueParser(MEDIDocType documentType) {
+	public DocumentValueParser(MEDIDocType documentType, String messageSequenceReference) {
 		this.documentType = documentType;
+		this.messageSequenceReference = messageSequenceReference;
 	}
 	
 	public String parseMessageLine(String messageTxt, PO parseableRecord) {
@@ -56,11 +61,15 @@ public class DocumentValueParser {
 		
 		String newMessage = originalMessage;
 		if (originalMessage.contains(EDI_MESSAGE_TYPE_VARIABLE))
-			newMessage = originalMessage.replace(EDI_MESSAGE_TYPE_VARIABLE, documentType.getEDI_MessageType());
+			newMessage = newMessage.replace(EDI_MESSAGE_TYPE_VARIABLE, documentType.getEDI_MessageType());
 		if (originalMessage.contains(EDI_DOCUMENT_CODE_VARIABLE))
-			newMessage = originalMessage.replace(EDI_DOCUMENT_CODE_VARIABLE, documentType.getEDI_DocumentCode());
+			newMessage = newMessage.replace(EDI_DOCUMENT_CODE_VARIABLE, documentType.getEDI_DocumentCode());
 		if (originalMessage.contains(EDI_SEGMENTS_NO))
-			newMessage = originalMessage.replace(EDI_SEGMENTS_NO, String.valueOf(lineCounter+1));
+			newMessage = newMessage.replace(EDI_SEGMENTS_NO, String.valueOf(lineCounter+1));
+		if (originalMessage.contains(EDI_BP_REFERENCE_SEQ))
+			newMessage = newMessage.replace(EDI_BP_REFERENCE_SEQ, messageSequenceReference);
+		if (originalMessage.contains(EDI_MESSAGE_NUMBER))
+			newMessage = newMessage.replace(EDI_MESSAGE_NUMBER, String.valueOf(messageCounter));
 
 		return newMessage;
 	}
@@ -70,5 +79,10 @@ public class DocumentValueParser {
 			return originalMessage;
 
 		return Env.parseVariable(originalMessage, parseableRecord, parseableRecord.get_TrxName(), false);
+	}
+	
+	public void startNewMessage() {
+		lineCounter = 0;
+		messageCounter++;
 	}
 }

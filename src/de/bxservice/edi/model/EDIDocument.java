@@ -52,7 +52,7 @@ public class EDIDocument {
 		
 		this.ediFormat = ediFormat;
 		ediRecord = new EDIParseableRecord(po, MTable.get(ediFormat.getAD_Table_ID()));
-		docParser = new DocumentValueParser(ediFormat.getEDIDocType());
+		docParser = new DocumentValueParser(ediFormat.getEDIDocType(), ediFormat.consumeNextMessageReferenceSeq(po));
 		setLineSeparator();
 	}
 	

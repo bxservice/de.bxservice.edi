@@ -42,6 +42,7 @@ public class MEDIFormat extends X_BXS_EDIFormat {
 	private static final CCache<Integer, MEDIFormat> s_cache = new CCache<>(null, "MEDIFormat", 30, 120, false, 50);
 	
 	private MEDIDocType docType;
+	private MEDIBPartner ediPartner;
 
 	public MEDIFormat(Properties ctx, int BXS_EDIFormat_ID, String trxName) {
 		super(ctx, BXS_EDIFormat_ID, trxName);
@@ -64,6 +65,16 @@ public class MEDIFormat extends X_BXS_EDIFormat {
 	
 	public MEDIDocType getEDIDocType() {
 		return docType;
+	}
+	
+	public String consumeNextMessageReferenceSeq(PO po) {
+		String nextReferenceSeq = MEDIBPartner.DEFAULT_SEQ_NO;
+		ediPartner = MEDIBPartner.get(this, po);
+		if (ediPartner != null) {
+			nextReferenceSeq = ediPartner.consumeNextReferenceSeq(); 
+		}
+		
+		return  nextReferenceSeq;
 	}
 	
 	public static MEDIFormat get(PO record) {

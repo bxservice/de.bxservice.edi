@@ -6,6 +6,7 @@ import org.compiere.model.PO;
 import org.compiere.util.Env;
 import org.osgi.service.component.annotations.Component;
 
+import de.bxservice.edi.model.MEDIBPartner;
 import de.bxservice.edi.model.MEDIDocType;
 import de.bxservice.edi.model.MEDIFormat;
 import de.bxservice.edi.model.MEDILine;
@@ -27,6 +28,8 @@ public class EDIModelFactory implements IModelFactory {
 			return MEDISection.class;
 		if (MEDILine.Table_Name.equals(tableName))
 			return MEDILine.class;
+		if (MEDIBPartner.Table_Name.equals(tableName))
+			return MEDIBPartner.class;
 		return null;
 	}
 
@@ -40,6 +43,8 @@ public class EDIModelFactory implements IModelFactory {
 			return new MEDISection(Env.getCtx(), Record_ID, trxName);
 		if (MEDILine.Table_Name.equals(tableName))
 			return new MEDILine(Env.getCtx(), Record_ID, trxName);
+		if (MEDIBPartner.Table_Name.equals(tableName))
+			return new MEDIBPartner(Env.getCtx(), Record_ID, trxName);
 		return null;
 	}
 
@@ -53,6 +58,8 @@ public class EDIModelFactory implements IModelFactory {
 			return new MEDISection(Env.getCtx(), rs, trxName);
 		if (MEDILine.Table_Name.equals(tableName))
 			return new MEDILine(Env.getCtx(), rs, trxName);
+		if (MEDIBPartner.Table_Name.equals(tableName))
+			return new MEDIBPartner(Env.getCtx(), rs, trxName);
 		return null;
 	}
 

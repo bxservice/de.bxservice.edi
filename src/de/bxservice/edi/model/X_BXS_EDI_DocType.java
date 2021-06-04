@@ -31,7 +31,7 @@ public class X_BXS_EDI_DocType extends PO implements I_BXS_EDI_DocType, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210526L;
+	private static final long serialVersionUID = 20210604L;
 
     /** Standard Constructor */
     public X_BXS_EDI_DocType (Properties ctx, int BXS_EDI_DocType_ID, String trxName)
@@ -53,7 +53,7 @@ public class X_BXS_EDI_DocType extends PO implements I_BXS_EDI_DocType, I_Persis
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {

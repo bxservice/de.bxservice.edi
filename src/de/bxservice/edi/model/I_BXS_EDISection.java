@@ -32,14 +32,14 @@ public interface I_BXS_EDISection
     /** TableName=BXS_EDISection */
     public static final String Table_Name = "BXS_EDISection";
 
-    /** AD_Table_ID=1000054 */
+    /** AD_Table_ID=1000061 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 

@@ -31,7 +31,7 @@ public class X_BXS_EDILine extends PO implements I_BXS_EDILine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210527L;
+	private static final long serialVersionUID = 20210604L;
 
     /** Standard Constructor */
     public X_BXS_EDILine (Properties ctx, int BXS_EDILine_ID, String trxName)
@@ -53,7 +53,7 @@ public class X_BXS_EDILine extends PO implements I_BXS_EDILine, I_Persistent
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {

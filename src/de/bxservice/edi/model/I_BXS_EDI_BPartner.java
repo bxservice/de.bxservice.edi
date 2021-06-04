@@ -21,18 +21,18 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for BXS_EDI_DocType
+/** Generated Interface for BXS_EDI_BPartner
  *  @author iDempiere (generated) 
  *  @version Release 8.2
  */
 @SuppressWarnings("all")
-public interface I_BXS_EDI_DocType 
+public interface I_BXS_EDI_BPartner 
 {
 
-    /** TableName=BXS_EDI_DocType */
-    public static final String Table_Name = "BXS_EDI_DocType";
+    /** TableName=BXS_EDI_BPartner */
+    public static final String Table_Name = "BXS_EDI_BPartner";
 
-    /** AD_Table_ID=1000063 */
+    /** AD_Table_ID=1000066 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -64,23 +64,64 @@ public interface I_BXS_EDI_DocType
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name BXS_EDI_DocType_ID */
-    public static final String COLUMNNAME_BXS_EDI_DocType_ID = "BXS_EDI_DocType_ID";
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
-	/** Set EDI Document Type	  */
-	public void setBXS_EDI_DocType_ID (int BXS_EDI_DocType_ID);
+	/** Set Table.
+	  * Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID);
 
-	/** Get EDI Document Type	  */
-	public int getBXS_EDI_DocType_ID();
+	/** Get Table.
+	  * Database Table information
+	  */
+	public int getAD_Table_ID();
 
-    /** Column name BXS_EDI_DocType_UU */
-    public static final String COLUMNNAME_BXS_EDI_DocType_UU = "BXS_EDI_DocType_UU";
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
-	/** Set BXS_EDI_DocType_UU	  */
-	public void setBXS_EDI_DocType_UU (String BXS_EDI_DocType_UU);
+    /** Column name BXS_EDI_BPartner_ID */
+    public static final String COLUMNNAME_BXS_EDI_BPartner_ID = "BXS_EDI_BPartner_ID";
 
-	/** Get BXS_EDI_DocType_UU	  */
-	public String getBXS_EDI_DocType_UU();
+	/** Set EDI Business Partner	  */
+	public void setBXS_EDI_BPartner_ID (int BXS_EDI_BPartner_ID);
+
+	/** Get EDI Business Partner	  */
+	public int getBXS_EDI_BPartner_ID();
+
+    /** Column name BXS_EDI_BPartner_UU */
+    public static final String COLUMNNAME_BXS_EDI_BPartner_UU = "BXS_EDI_BPartner_UU";
+
+	/** Set BXS_EDI_BPartner_UU	  */
+	public void setBXS_EDI_BPartner_UU (String BXS_EDI_BPartner_UU);
+
+	/** Get BXS_EDI_BPartner_UU	  */
+	public String getBXS_EDI_BPartner_UU();
+
+    /** Column name BXS_EDIFormat_ID */
+    public static final String COLUMNNAME_BXS_EDIFormat_ID = "BXS_EDIFormat_ID";
+
+	/** Set EDI Format	  */
+	public void setBXS_EDIFormat_ID (int BXS_EDIFormat_ID);
+
+	/** Get EDI Format	  */
+	public int getBXS_EDIFormat_ID();
+
+	public I_BXS_EDIFormat getBXS_EDIFormat() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -98,44 +139,31 @@ public interface I_BXS_EDI_DocType
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
+    /** Column name CurrentNext */
+    public static final String COLUMNNAME_CurrentNext = "CurrentNext";
 
-	/** Set Description.
-	  * Optional short description of the record
+	/** Set Current Next.
+	  * The next number to be used
 	  */
-	public void setDescription (String Description);
+	public void setCurrentNext (int CurrentNext);
 
-	/** Get Description.
-	  * Optional short description of the record
+	/** Get Current Next.
+	  * The next number to be used
 	  */
-	public String getDescription();
+	public int getCurrentNext();
 
-    /** Column name EDI_DocumentCode */
-    public static final String COLUMNNAME_EDI_DocumentCode = "EDI_DocumentCode";
+    /** Column name IncrementNo */
+    public static final String COLUMNNAME_IncrementNo = "IncrementNo";
 
-	/** Set Document Name Code.
-	  * Code specifying the document name in the D96A standard.
+	/** Set Increment.
+	  * The number to increment the last document number by
 	  */
-	public void setEDI_DocumentCode (String EDI_DocumentCode);
+	public void setIncrementNo (int IncrementNo);
 
-	/** Get Document Name Code.
-	  * Code specifying the document name in the D96A standard.
+	/** Get Increment.
+	  * The number to increment the last document number by
 	  */
-	public String getEDI_DocumentCode();
-
-    /** Column name EDI_MessageType */
-    public static final String COLUMNNAME_EDI_MessageType = "EDI_MessageType";
-
-	/** Set Message Type.
-	  * EDIFACT uniform message type. 
-	  */
-	public void setEDI_MessageType (String EDI_MessageType);
-
-	/** Get Message Type.
-	  * EDIFACT uniform message type. 
-	  */
-	public String getEDI_MessageType();
+	public int getIncrementNo();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -149,19 +177,6 @@ public interface I_BXS_EDI_DocType
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

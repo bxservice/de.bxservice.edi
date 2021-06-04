@@ -32,14 +32,14 @@ public interface I_BXS_EDILine
     /** TableName=BXS_EDILine */
     public static final String Table_Name = "BXS_EDILine";
 
-    /** AD_Table_ID=1000055 */
+    /** AD_Table_ID=1000062 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
