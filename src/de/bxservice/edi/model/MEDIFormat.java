@@ -25,6 +25,7 @@
 package de.bxservice.edi.model;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -42,39 +43,89 @@ public class MEDIFormat extends X_BXS_EDIFormat {
 	private static final CCache<Integer, MEDIFormat> s_cache = new CCache<>(null, "MEDIFormat", 30, 120, false, 50);
 	
 	private MEDIDocType docType;
-	private MEDIBPartner ediPartner;
+	List<MEDISection> sections;
+	List<MEDISection> interchangeSections;
+	List<MEDISection> messageSections;
 
 	public MEDIFormat(Properties ctx, int BXS_EDIFormat_ID, String trxName) {
 		super(ctx, BXS_EDIFormat_ID, trxName);
 		docType = new MEDIDocType(ctx, getBXS_EDI_DocType_ID(), trxName);
+		setSectionArrays();
 	}
 
 	public MEDIFormat(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 		docType = new MEDIDocType(ctx, getBXS_EDI_DocType_ID(), trxName);
+		setSectionArrays();
 	}
 	
-	public List<MEDISection> getSections() {
+	private void setSectionArrays() {
+		setAllSections();
+		setMessageSections();
+		setInterchangeSections();
+	}
+	
+	private void setAllSections() {
 		String whereClauseFinal = COLUMNNAME_BXS_EDIFormat_ID + "=? ";
-		List<MEDISection> sections = new Query(getCtx(), MEDISection.Table_Name, whereClauseFinal, get_TrxName())
+		sections = new Query(getCtx(), MEDISection.Table_Name, whereClauseFinal, get_TrxName())
 										.setParameters(getBXS_EDIFormat_ID())
 										.setOrderBy("SeqNo")
 										.list();
-		return  sections;
+	}
+	
+	private void setInterchangeSections() {
+		interchangeSections = new ArrayList<MEDISection>();
+		for (MEDISection ediSection : sections) {
+			if (isInterchangeSpecificSection(ediSection))
+				interchangeSections.add(ediSection);
+		}
+	}
+	
+	private boolean isInterchangeSpecificSection(MEDISection ediSection) {
+		return MEDISection.BXS_EDISECTION_InterchangeHeader.equals(ediSection.getBXS_EDISection()) ||
+				MEDISection.BXS_EDISECTION_InterchangeTrailer.equals(ediSection.getBXS_EDISection());
+	}
+
+	private void setMessageSections() {
+		messageSections = new ArrayList<MEDISection>();
+		for (MEDISection ediSection : sections) {
+			if (!isInterchangeSpecificSection(ediSection))
+				messageSections.add(ediSection);
+		}
+	}
+	
+	public List<MEDISection> getAllSections() {
+		return sections;
+	}
+	
+	public List<MEDISection> getInterchangeSections() {
+		return interchangeSections;
+	}
+	
+	public List<MEDISection> getMessageSections() {
+		return messageSections;
+	}
+	
+	public MEDISection getInterchangeHeader() {
+		for (MEDISection ediSection : interchangeSections) {
+			if (MEDISection.BXS_EDISECTION_InterchangeHeader.equals(ediSection.getBXS_EDISection()))
+				return ediSection;
+		}
+
+		return null;
+	}
+	
+	public MEDISection getInterchangeTrailer() {
+		for (MEDISection ediSection : interchangeSections) {
+			if (MEDISection.BXS_EDISECTION_InterchangeTrailer.equals(ediSection.getBXS_EDISection()))
+				return ediSection;
+		}
+
+		return null;
 	}
 	
 	public MEDIDocType getEDIDocType() {
 		return docType;
-	}
-	
-	public String consumeNextMessageReferenceSeq(PO po) {
-		String nextReferenceSeq = MEDIBPartner.DEFAULT_SEQ_NO;
-		ediPartner = MEDIBPartner.get(this, po);
-		if (ediPartner != null) {
-			nextReferenceSeq = ediPartner.consumeNextReferenceSeq(); 
-		}
-		
-		return  nextReferenceSeq;
 	}
 	
 	public static MEDIFormat get(PO record) {

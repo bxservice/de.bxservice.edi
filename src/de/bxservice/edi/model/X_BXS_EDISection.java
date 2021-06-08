@@ -31,7 +31,7 @@ public class X_BXS_EDISection extends PO implements I_BXS_EDISection, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210604L;
+	private static final long serialVersionUID = 20210607L;
 
     /** Standard Constructor */
     public X_BXS_EDISection (Properties ctx, int BXS_EDISection_ID, String trxName)
@@ -127,16 +127,16 @@ public class X_BXS_EDISection extends PO implements I_BXS_EDISection, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Message Header = M */
-	public static final String BXS_EDISECTION_MessageHeader = "M";
-	/** Heading Section = H */
-	public static final String BXS_EDISECTION_HeadingSection = "H";
-	/** Detail Section = D */
-	public static final String BXS_EDISECTION_DetailSection = "D";
-	/** Summary Section = S */
-	public static final String BXS_EDISECTION_SummarySection = "S";
-	/** Message Footer = F */
-	public static final String BXS_EDISECTION_MessageFooter = "F";
+	/** Interchange Header = M */
+	public static final String BXS_EDISECTION_InterchangeHeader = "M";
+	/** Message Header = H */
+	public static final String BXS_EDISECTION_MessageHeader = "H";
+	/** Message Detail = D */
+	public static final String BXS_EDISECTION_MessageDetail = "D";
+	/** Message Summary = S */
+	public static final String BXS_EDISECTION_MessageSummary = "S";
+	/** Interchange Trailer = F */
+	public static final String BXS_EDISECTION_InterchangeTrailer = "F";
 	/** Set EDI Section.
 		@param BXS_EDISection EDI Section	  */
 	public void setBXS_EDISection (String BXS_EDISection)

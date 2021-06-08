@@ -24,22 +24,33 @@ public class MEDIBPartner extends X_BXS_EDI_BPartner {
 		super(ctx, rs, trxName);
 	}
 	
-	public static MEDIBPartner get(MEDIFormat format, PO po) {
+	private static MEDIBPartner get(int BXS_EDIFormat_ID, PO po) {
 		String whereClause = COLUMNNAME_BXS_EDIFormat_ID + " =? AND " + COLUMNNAME_C_BPartner_ID + " =? AND "
 				+ COLUMNNAME_AD_Table_ID + " =?";
 		
 		return new Query(Env.getCtx(), Table_Name, whereClause, null)
-				.setParameters(format.getBXS_EDIFormat_ID(), po.get_Value(COLUMNNAME_C_BPartner_ID), po.get_Table_ID())
+				.setParameters(BXS_EDIFormat_ID, po.get_Value(COLUMNNAME_C_BPartner_ID), po.get_Table_ID())
 				.setOnlyActiveRecords(true)
 				.first();
 	}
 	
-	public void incrementCurrentNext() {
+	public static MEDIBPartner get(int C_BPartner_ID, int AD_Table_ID) {
+		String whereClause = COLUMNNAME_C_BPartner_ID + " =? AND "
+				+ COLUMNNAME_AD_Table_ID + " =?";
 		
+		return new Query(Env.getCtx(), Table_Name, whereClause, null)
+				.setParameters(C_BPartner_ID, AD_Table_ID)
+				.setOnlyActiveRecords(true)
+				.first();
+	}
+	
+	public static String consumeNextMessageReferenceSeq(int BXS_EDIFormat_ID, PO po) {
+		MEDIBPartner ediBPartner = get(BXS_EDIFormat_ID, po);
+		return ediBPartner != null ? ediBPartner.consumeNextReferenceSeq() : DEFAULT_SEQ_NO;
 	}
 	
 	public String consumeNextReferenceSeq() {
-		String nextRef = String.valueOf(getCurrentNext()); 
+		String nextRef = String.valueOf(getCurrentNext());
 		setCurrentNext(getCurrentNext() + getIncrementNo());
 		saveEx();
 		return nextRef;

@@ -24,6 +24,7 @@
  **********************************************************************/
 package de.bxservice.edi.util;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.PO;
 import org.compiere.util.Env;
 
@@ -41,7 +42,7 @@ public class DocumentValueParser {
 	private MEDIDocType documentType;
 	private String messageSequenceReference;
 	private int lineCounter = 0;
-	private int messageCounter = 1;
+	private int messageCounter = 0;
 	
 	public DocumentValueParser(MEDIDocType documentType, String messageSequenceReference) {
 		this.documentType = documentType;
@@ -49,6 +50,9 @@ public class DocumentValueParser {
 	}
 	
 	public String parseMessageLine(String messageTxt, PO parseableRecord) {
+		if (parseableRecord == null)
+			throw new AdempiereException("No valid document to parse");
+		
 		String parsedLine = parseEDIVariables(messageTxt);
 		parsedLine = parseContextVariables(parsedLine, parseableRecord);
 		lineCounter++;

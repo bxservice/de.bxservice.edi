@@ -24,6 +24,7 @@
  **********************************************************************/
 package de.bxservice.edi.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -38,21 +39,31 @@ public class EDIDocument {
 	
 	private final static String DEFAULT_LINE_SUFFIX = "'";
 	
-	private EDIParseableRecord ediRecord;
-	private DocumentValueParser docParser;
+	private List<PO> documentsToParse;
+	private EDIParseableRecord currentEDIRecord;
+	private DocumentValueParser currentDocParser;
 	private MEDIFormat ediFormat;
 	private StringBuffer ediDocumentTxt;
 	
 	private String lineSeparator;
 	
 	public EDIDocument(PO po, MEDIFormat ediFormat) {
+		initVariables(ediFormat);
+
+		documentsToParse = new ArrayList<PO>();
+		documentsToParse.add(po);
+	}
+
+	public EDIDocument(List<PO> poList, MEDIFormat ediFormat) {
+		initVariables(ediFormat);
+		this.documentsToParse = poList;
+	}
+	
+	private void initVariables(MEDIFormat ediFormat) {
 		if (ediFormat == null) {
 			throw new AdempiereException("NO EDI Format defined for this document.");
 		}
-		
 		this.ediFormat = ediFormat;
-		ediRecord = new EDIParseableRecord(po, MTable.get(ediFormat.getAD_Table_ID()));
-		docParser = new DocumentValueParser(ediFormat.getEDIDocType(), ediFormat.consumeNextMessageReferenceSeq(po));
 		setLineSeparator();
 	}
 	
@@ -75,21 +86,49 @@ public class EDIDocument {
 	private void generateEDI() {
 		ediDocumentTxt = new StringBuffer();
 
-		for (MEDISection ediSection : ediFormat.getSections()) {
-			writeDocumentSection(ediSection);
+		PO basePO = documentsToParse.get(0);
+		setCurrentDocumentParser(basePO);
+		writeDocumentHeader(basePO);
+		for (PO currentPO : documentsToParse) {
+			currentDocParser.startNewMessage();
+			writeMessage(currentPO);
+		}
+		writeDocumentFooter(basePO);
+	}
+	
+	private void writeDocumentHeader(PO currentPO) {
+		currentEDIRecord = new EDIParseableRecord(currentPO, MTable.get(ediFormat.getAD_Table_ID()));
+		MEDISection interchangeHeader = ediFormat.getInterchangeHeader();
+		writeSegment(interchangeHeader);
+	}
+	
+	private void writeDocumentFooter(PO currentPO) {
+		MEDISection interchangeFooter = ediFormat.getInterchangeTrailer();
+		writeSegment(interchangeFooter);
+	}
+	
+	private void writeMessage(PO currentPO) {
+		currentEDIRecord = new EDIParseableRecord(currentPO, MTable.get(ediFormat.getAD_Table_ID()));
+		for (MEDISection ediSection : ediFormat.getMessageSections()) {
+			writeSegment(ediSection);
 		}
 	}
 	
-	private void writeDocumentSection(MEDISection ediSection) {
-		if (MEDISection.BXS_EDISECTION_DetailSection.equals(ediSection.getBXS_EDISection())) {
+	private void setCurrentDocumentParser(PO currentPO) {
+		String messageReference = MEDIBPartner.consumeNextMessageReferenceSeq(ediFormat.getBXS_EDIFormat_ID(), currentPO);
+		currentDocParser = new DocumentValueParser(ediFormat.getEDIDocType(), messageReference);
+	}
+	
+	private void writeSegment(MEDISection ediSection) {
+		if (MEDISection.BXS_EDISECTION_MessageDetail.equals(ediSection.getBXS_EDISection())) {
 			writeDetailSection(ediSection);
 		} else {
-			writeSegmentLines(ediSection.getLines(), ediRecord.getParseableRecord());
+			writeSegmentLines(ediSection.getLines(), currentEDIRecord.getParseableRecord());
 		}
 	}
 	
 	private void writeDetailSection(MEDISection ediSection) {
-		List<PO> detailRecords = ediRecord.getDetailRecords(MTable.get(ediSection.getAD_Table_ID()), ediSection.getOrderByClause());
+		List<PO> detailRecords = currentEDIRecord.getDetailRecords(MTable.get(ediSection.getAD_Table_ID()), ediSection.getOrderByClause());
 
 		if (detailRecords.size() <= 0) {
 			throw new AdempiereException("No detail records found - EDI Document must have at least one detail line");
@@ -102,7 +141,7 @@ public class EDIDocument {
 	
 	private void writeSegmentLines(List<MEDILine> lines, PO parseableRecord) {
 		for (MEDILine ediLine : lines) {
-			String messageLine = docParser.parseMessageLine(ediLine.getMsgText(), parseableRecord);
+			String messageLine = currentDocParser.parseMessageLine(ediLine.getMsgText(), parseableRecord);
 			appendEDIMessageLine(messageLine);
 		}
 	}

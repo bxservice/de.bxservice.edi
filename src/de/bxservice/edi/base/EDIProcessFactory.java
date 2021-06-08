@@ -29,6 +29,7 @@ import org.compiere.process.ProcessCall;
 import org.osgi.service.component.annotations.Component;
 
 import de.bxservice.edi.process.GenerateEDI;
+import de.bxservice.edi.process.GenerateEDIInvoices;
 
 @Component(
 		 property= {"service.ranking:Integer=2"},
@@ -40,6 +41,8 @@ public class EDIProcessFactory implements IProcessFactory {
 	public ProcessCall newProcessInstance(String className) {
 		if (GenerateEDI.class.getName().equals(className))
 			return new GenerateEDI();
+		if (GenerateEDIInvoices.class.getName().equals(className))
+			return new GenerateEDIInvoices();
 
 		return null;
 	}
