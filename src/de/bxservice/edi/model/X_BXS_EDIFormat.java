@@ -31,7 +31,7 @@ public class X_BXS_EDIFormat extends PO implements I_BXS_EDIFormat, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210604L;
+	private static final long serialVersionUID = 20210608L;
 
     /** Standard Constructor */
     public X_BXS_EDIFormat (Properties ctx, int BXS_EDIFormat_ID, String trxName)
@@ -100,6 +100,25 @@ public class X_BXS_EDIFormat extends PO implements I_BXS_EDIFormat, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Windows = CRLF */
+	public static final String BXS_BREAKLINESEPARATOR_Windows = "CRLF";
+	/** Unix = LF */
+	public static final String BXS_BREAKLINESEPARATOR_Unix = "LF";
+	/** Set End of Line.
+		@param BXS_BreakLineSeparator End of Line	  */
+	public void setBXS_BreakLineSeparator (String BXS_BreakLineSeparator)
+	{
+
+		set_Value (COLUMNNAME_BXS_BreakLineSeparator, BXS_BreakLineSeparator);
+	}
+
+	/** Get End of Line.
+		@return End of Line	  */
+	public String getBXS_BreakLineSeparator () 
+	{
+		return (String)get_Value(COLUMNNAME_BXS_BreakLineSeparator);
 	}
 
 	public I_BXS_EDI_DocType getBXS_EDI_DocType() throws RuntimeException

@@ -37,8 +37,6 @@ import de.bxservice.edi.util.EDIParseableRecord;
 
 public class EDIDocument {
 	
-	private final static String DEFAULT_LINE_SUFFIX = "'";
-	
 	private List<PO> documentsToParse;
 	private EDIParseableRecord currentEDIRecord;
 	private DocumentValueParser currentDocParser;
@@ -64,15 +62,7 @@ public class EDIDocument {
 			throw new AdempiereException("NO EDI Format defined for this document.");
 		}
 		this.ediFormat = ediFormat;
-		setLineSeparator();
-	}
-	
-	private void setLineSeparator() {
-		lineSeparator = !Util.isEmpty(ediFormat.getEDI_LineSeparator()) ? ediFormat.getEDI_LineSeparator() : DEFAULT_LINE_SUFFIX;
-		
-		if (ediFormat.isBreakLine()) {
-			lineSeparator = lineSeparator + System.lineSeparator();
-		}
+		lineSeparator = ediFormat.getLineSeparator();
 	}
 	
 	public String getDocumentInEDIFormat() {

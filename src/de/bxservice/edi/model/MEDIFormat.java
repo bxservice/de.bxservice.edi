@@ -33,6 +33,7 @@ import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 public class MEDIFormat extends X_BXS_EDIFormat {
 
@@ -41,6 +42,7 @@ public class MEDIFormat extends X_BXS_EDIFormat {
 	 */
 	private static final long serialVersionUID = 8879592481945097128L;
 	private static final CCache<Integer, MEDIFormat> s_cache = new CCache<>(null, "MEDIFormat", 30, 120, false, 50);
+	private final static String DEFAULT_LINE_SUFFIX = "'";
 	
 	private MEDIDocType docType;
 	List<MEDISection> sections;
@@ -126,6 +128,29 @@ public class MEDIFormat extends X_BXS_EDIFormat {
 	
 	public MEDIDocType getEDIDocType() {
 		return docType;
+	}
+	
+	public String getLineSeparator() {
+		String suffix = !Util.isEmpty(getEDI_LineSeparator()) ? getEDI_LineSeparator() : DEFAULT_LINE_SUFFIX;
+		return suffix + getEndOfLine();
+	}
+	
+	private String getEndOfLine() {
+		if (!isBreakLine())
+			return "";
+
+		String formatEndOfLine = getBXS_BreakLineSeparator();
+		if (Util.isEmpty(getBXS_BreakLineSeparator()))
+			return System.lineSeparator();
+		
+		switch(formatEndOfLine) {
+		case (BXS_BREAKLINESEPARATOR_Windows):
+			return "\r\n";
+		case (BXS_BREAKLINESEPARATOR_Unix):
+			return "\n";
+		default:
+			return System.lineSeparator();
+		}
 	}
 	
 	public static MEDIFormat get(PO record) {

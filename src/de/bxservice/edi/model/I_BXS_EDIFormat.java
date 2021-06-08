@@ -79,6 +79,15 @@ public interface I_BXS_EDIFormat
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
+    /** Column name BXS_BreakLineSeparator */
+    public static final String COLUMNNAME_BXS_BreakLineSeparator = "BXS_BreakLineSeparator";
+
+	/** Set End of Line	  */
+	public void setBXS_BreakLineSeparator (String BXS_BreakLineSeparator);
+
+	/** Get End of Line	  */
+	public String getBXS_BreakLineSeparator();
+
     /** Column name BXS_EDI_DocType_ID */
     public static final String COLUMNNAME_BXS_EDI_DocType_ID = "BXS_EDI_DocType_ID";
 
